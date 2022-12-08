@@ -66,6 +66,13 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::ToolStripMenuItem^ saveDataToolStripMenuItem;
 	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+	private: System::Windows::Forms::RadioButton^ PerceptronButton;
+
+	private: System::Windows::Forms::RadioButton^ Deltabutton;
+	private: System::Windows::Forms::GroupBox^ learningMethodBox;
+
+
+
 		   /// </summary>
 		System::ComponentModel::Container ^components;
 
@@ -92,10 +99,14 @@ namespace CppCLRWinformsProjekt {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->PerceptronButton = (gcnew System::Windows::Forms::RadioButton());
+			this->Deltabutton = (gcnew System::Windows::Forms::RadioButton());
+			this->learningMethodBox = (gcnew System::Windows::Forms::GroupBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
+			this->learningMethodBox->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// pictureBox1
@@ -112,6 +123,7 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->learningMethodBox);
 			this->groupBox1->Controls->Add(this->button1);
 			this->groupBox1->Controls->Add(this->label1);
 			this->groupBox1->Controls->Add(this->ClassCountBox);
@@ -121,14 +133,14 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox1->Margin = System::Windows::Forms::Padding(4);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Padding = System::Windows::Forms::Padding(4);
-			this->groupBox1->Size = System::Drawing::Size(267, 123);
+			this->groupBox1->Size = System::Drawing::Size(293, 165);
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Network Architecture";
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(13, 75);
+			this->button1->Location = System::Drawing::Point(13, 116);
 			this->button1->Margin = System::Windows::Forms::Padding(4);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(175, 41);
@@ -255,6 +267,41 @@ namespace CppCLRWinformsProjekt {
 			this->textBox1->Size = System::Drawing::Size(328, 347);
 			this->textBox1->TabIndex = 5;
 			// 
+			// PerceptronButton
+			// 
+			this->PerceptronButton->AutoSize = true;
+			this->PerceptronButton->Location = System::Drawing::Point(9, 19);
+			this->PerceptronButton->Name = L"PerceptronButton";
+			this->PerceptronButton->Size = System::Drawing::Size(87, 17);
+			this->PerceptronButton->TabIndex = 6;
+			this->PerceptronButton->TabStop = true;
+			this->PerceptronButton->Text = L"Perceptron";
+			this->PerceptronButton->UseVisualStyleBackColor = true;
+			this->PerceptronButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
+			// 
+			// Deltabutton
+			// 
+			this->Deltabutton->AutoSize = true;
+			this->Deltabutton->Location = System::Drawing::Point(134, 19);
+			this->Deltabutton->Name = L"Deltabutton";
+			this->Deltabutton->Size = System::Drawing::Size(55, 17);
+			this->Deltabutton->TabIndex = 7;
+			this->Deltabutton->TabStop = true;
+			this->Deltabutton->Text = L"Delta";
+			this->Deltabutton->UseVisualStyleBackColor = true;
+			this->Deltabutton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
+			// 
+			// learningMethodBox
+			// 
+			this->learningMethodBox->Controls->Add(this->Deltabutton);
+			this->learningMethodBox->Controls->Add(this->PerceptronButton);
+			this->learningMethodBox->Location = System::Drawing::Point(13, 58);
+			this->learningMethodBox->Name = L"learningMethodBox";
+			this->learningMethodBox->Size = System::Drawing::Size(222, 51);
+			this->learningMethodBox->TabIndex = 8;
+			this->learningMethodBox->TabStop = false;
+			this->learningMethodBox->Text = L"learningMethodBox";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -277,6 +324,8 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox2->PerformLayout();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
+			this->learningMethodBox->ResumeLayout(false);
+			this->learningMethodBox->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -499,5 +548,9 @@ namespace CppCLRWinformsProjekt {
         }//Save_Data
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
+private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }
