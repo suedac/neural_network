@@ -177,12 +177,13 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// button1
 			// 
+			this->button1->Enabled = false;
 			this->button1->Location = System::Drawing::Point(13, 116);
 			this->button1->Margin = System::Windows::Forms::Padding(4);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(175, 41);
 			this->button1->TabIndex = 2;
-			this->button1->Text = L"set up network";
+			this->button1->Text = L"Select class count";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
@@ -441,7 +442,6 @@ namespace CppCLRWinformsProjekt {
 				bias = init_array_random(numOutNeuron);
 				LineCiz(Weights, bias, numClass, 1.0);
 			}
-			button1->Text = " Network is Ready : ";
         }
         private: System::Void readDataToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 			char** c = new char *[2];
@@ -588,7 +588,8 @@ private: System::Void ClassCountBox_TextChanged(System::Object^ sender, System::
 		bias = init_array_random(numOutNeuron);
 		//LineCiz(Weights, bias, numClass, 1.0);
 	}
-	button1->Text = " Network is Ready : ";
+	button1->Enabled = true;
+	button1->Text = "Calculate";
 	ClassCountBox->Enabled = false;
 }
 private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^ e) {
