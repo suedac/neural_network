@@ -85,6 +85,9 @@ namespace CppCLRWinformsProjekt {
 		{
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->learningMethodBox = (gcnew System::Windows::Forms::GroupBox());
+			this->Deltabutton = (gcnew System::Windows::Forms::RadioButton());
+			this->PerceptronButton = (gcnew System::Windows::Forms::RadioButton());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->ClassCountBox = (gcnew System::Windows::Forms::ComboBox());
@@ -99,14 +102,11 @@ namespace CppCLRWinformsProjekt {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
-			this->PerceptronButton = (gcnew System::Windows::Forms::RadioButton());
-			this->Deltabutton = (gcnew System::Windows::Forms::RadioButton());
-			this->learningMethodBox = (gcnew System::Windows::Forms::GroupBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->groupBox1->SuspendLayout();
+			this->learningMethodBox->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
-			this->learningMethodBox->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// pictureBox1
@@ -118,6 +118,7 @@ namespace CppCLRWinformsProjekt {
 			this->pictureBox1->Size = System::Drawing::Size(1069, 711);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &Form1::pictureBox1_Click);
 			this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::pictureBox1_Paint);
 			this->pictureBox1->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::pictureBox1_MouseClick);
 			// 
@@ -137,6 +138,42 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Network Architecture";
+			this->groupBox1->Enter += gcnew System::EventHandler(this, &Form1::groupBox1_Enter);
+			// 
+			// learningMethodBox
+			// 
+			this->learningMethodBox->Controls->Add(this->Deltabutton);
+			this->learningMethodBox->Controls->Add(this->PerceptronButton);
+			this->learningMethodBox->Location = System::Drawing::Point(13, 58);
+			this->learningMethodBox->Name = L"learningMethodBox";
+			this->learningMethodBox->Size = System::Drawing::Size(222, 51);
+			this->learningMethodBox->TabIndex = 8;
+			this->learningMethodBox->TabStop = false;
+			this->learningMethodBox->Text = L"learningMethodBox";
+			// 
+			// Deltabutton
+			// 
+			this->Deltabutton->AutoSize = true;
+			this->Deltabutton->Location = System::Drawing::Point(134, 19);
+			this->Deltabutton->Name = L"Deltabutton";
+			this->Deltabutton->Size = System::Drawing::Size(55, 17);
+			this->Deltabutton->TabIndex = 7;
+			this->Deltabutton->TabStop = true;
+			this->Deltabutton->Text = L"Delta";
+			this->Deltabutton->UseVisualStyleBackColor = true;
+			this->Deltabutton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
+			// 
+			// PerceptronButton
+			// 
+			this->PerceptronButton->AutoSize = true;
+			this->PerceptronButton->Location = System::Drawing::Point(9, 19);
+			this->PerceptronButton->Name = L"PerceptronButton";
+			this->PerceptronButton->Size = System::Drawing::Size(87, 17);
+			this->PerceptronButton->TabIndex = 6;
+			this->PerceptronButton->TabStop = true;
+			this->PerceptronButton->Text = L"Perceptron";
+			this->PerceptronButton->UseVisualStyleBackColor = true;
+			this->PerceptronButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
 			// 
 			// button1
 			// 
@@ -145,19 +182,18 @@ namespace CppCLRWinformsProjekt {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(175, 41);
 			this->button1->TabIndex = 2;
-			this->button1->Text = L"Network Setting";
+			this->button1->Text = L"set up network";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(144, 28);
+			this->label1->Location = System::Drawing::Point(220, 28);
 			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(65, 13);
+			this->label1->Size = System::Drawing::Size(0, 13);
 			this->label1->TabIndex = 1;
-			this->label1->Text = L"sinif sayisi";
 			this->label1->Click += gcnew System::EventHandler(this, &Form1::label1_Click);
 			// 
 			// ClassCountBox
@@ -167,9 +203,12 @@ namespace CppCLRWinformsProjekt {
 			this->ClassCountBox->Location = System::Drawing::Point(13, 25);
 			this->ClassCountBox->Margin = System::Windows::Forms::Padding(4);
 			this->ClassCountBox->Name = L"ClassCountBox";
-			this->ClassCountBox->Size = System::Drawing::Size(108, 21);
+			this->ClassCountBox->Size = System::Drawing::Size(199, 21);
 			this->ClassCountBox->TabIndex = 0;
-			this->ClassCountBox->Text = L"2";
+			this->ClassCountBox->Text = L"Select class count";
+			this->ClassCountBox->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::ClassCountBox_SelectedIndexChanged);
+			this->ClassCountBox->DropDownClosed += gcnew System::EventHandler(this, &Form1::ClassCountBox_DropDownClosed);
+			this->ClassCountBox->TextChanged += gcnew System::EventHandler(this, &Form1::ClassCountBox_TextChanged);
 			// 
 			// groupBox2
 			// 
@@ -219,6 +258,7 @@ namespace CppCLRWinformsProjekt {
 			this->label3->Size = System::Drawing::Size(45, 16);
 			this->label3->TabIndex = 3;
 			this->label3->Text = L"label3";
+			this->label3->Click += gcnew System::EventHandler(this, &Form1::label3_Click);
 			// 
 			// menuStrip1
 			// 
@@ -267,41 +307,6 @@ namespace CppCLRWinformsProjekt {
 			this->textBox1->Size = System::Drawing::Size(328, 347);
 			this->textBox1->TabIndex = 5;
 			// 
-			// PerceptronButton
-			// 
-			this->PerceptronButton->AutoSize = true;
-			this->PerceptronButton->Location = System::Drawing::Point(9, 19);
-			this->PerceptronButton->Name = L"PerceptronButton";
-			this->PerceptronButton->Size = System::Drawing::Size(87, 17);
-			this->PerceptronButton->TabIndex = 6;
-			this->PerceptronButton->TabStop = true;
-			this->PerceptronButton->Text = L"Perceptron";
-			this->PerceptronButton->UseVisualStyleBackColor = true;
-			this->PerceptronButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
-			// 
-			// Deltabutton
-			// 
-			this->Deltabutton->AutoSize = true;
-			this->Deltabutton->Location = System::Drawing::Point(134, 19);
-			this->Deltabutton->Name = L"Deltabutton";
-			this->Deltabutton->Size = System::Drawing::Size(55, 17);
-			this->Deltabutton->TabIndex = 7;
-			this->Deltabutton->TabStop = true;
-			this->Deltabutton->Text = L"Delta";
-			this->Deltabutton->UseVisualStyleBackColor = true;
-			this->Deltabutton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
-			// 
-			// learningMethodBox
-			// 
-			this->learningMethodBox->Controls->Add(this->Deltabutton);
-			this->learningMethodBox->Controls->Add(this->PerceptronButton);
-			this->learningMethodBox->Location = System::Drawing::Point(13, 58);
-			this->learningMethodBox->Name = L"learningMethodBox";
-			this->learningMethodBox->Size = System::Drawing::Size(222, 51);
-			this->learningMethodBox->TabIndex = 8;
-			this->learningMethodBox->TabStop = false;
-			this->learningMethodBox->Text = L"learningMethodBox";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -320,12 +325,12 @@ namespace CppCLRWinformsProjekt {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
+			this->learningMethodBox->ResumeLayout(false);
+			this->learningMethodBox->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox2->PerformLayout();
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
-			this->learningMethodBox->ResumeLayout(false);
-			this->learningMethodBox->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -335,6 +340,7 @@ namespace CppCLRWinformsProjekt {
 			Pen^ pen;
 			float ww[2]; //inputDim=2
 			//Line cizim için x1,y1, x2,y2 noktalarýn hesaplanmasý
+			// 2 class olmasi ozel durum, tek bir cizgi yeterli
 			if (NumberOfClass == 2)
 				NumberOfClass = 1;
 			for (int i = 0; i < NumberOfClass; i++) {
@@ -422,6 +428,8 @@ namespace CppCLRWinformsProjekt {
 			Weights = new float[numClass * inputDim];
 			bias = new float[numClass];
 			//initialize weights for single layer
+			// 2 den fazla class'imiz yoksa inputDim (2) adet agirlik olmasi yeterli
+			// Ama eger multiclass calisiyorsak, katmandaki her class icin ayri agirliklar olacagi icin numClass * inputDim (x1 ve x2 icin) kadar agirliga ihtiyacimiz var
 			if (numClass > 2) {
 				Weights = init_array_random(numClass * inputDim);
 				bias = init_array_random(numClass);
@@ -551,6 +559,39 @@ namespace CppCLRWinformsProjekt {
 private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void ClassCountBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void ClassCountBox_DropDownClosed(System::Object^ sender, System::EventArgs^ e) {
+
+}
+private: System::Void ClassCountBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	// Network is constructed
+	numClass = Convert::ToInt32(ClassCountBox->Text);
+	Weights = new float[numClass * inputDim];
+	bias = new float[numClass];
+	//initialize weights for single layer
+	// 2 den fazla class'imiz yoksa inputDim (2) adet agirlik olmasi yeterli
+	// Ama eger multiclass calisiyorsak, katmandaki her class icin ayri agirliklar olacagi icin numClass * inputDim (x1 ve x2 icin) kadar agirliga ihtiyacimiz var
+	if (numClass > 2) {
+		Weights = init_array_random(numClass * inputDim);
+		bias = init_array_random(numClass);
+		//LineCiz(Weights, bias, numClass, 1.0);
+	}
+	else {
+		int numOutNeuron = 1;
+		Weights = init_array_random(inputDim);
+		bias = init_array_random(numOutNeuron);
+		//LineCiz(Weights, bias, numClass, 1.0);
+	}
+	button1->Text = " Network is Ready : ";
+	ClassCountBox->Enabled = false;
+}
+private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
