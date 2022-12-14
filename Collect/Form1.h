@@ -336,6 +336,16 @@ namespace CppCLRWinformsProjekt {
 			this->PerformLayout();
 
 		}
+		private:void SinglePerceptron() {
+
+
+
+		}
+		private:void SingleDelta() {
+
+
+
+	    }
 		void LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
 			int x1, x2, y1, y2;
 			Pen^ pen;
@@ -441,6 +451,12 @@ namespace CppCLRWinformsProjekt {
 				Weights = init_array_random(inputDim);
 				bias = init_array_random(numOutNeuron);
 				LineCiz(Weights, bias, numClass, 1.0);
+			}
+			if (PerceptronButton->Checked == true) {
+				SinglePerceptron();
+			}
+			else if (Deltabutton->Checked == true){
+				SingleDelta();
 			}
         }
         private: System::Void readDataToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -557,6 +573,7 @@ namespace CppCLRWinformsProjekt {
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+
 }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 }
