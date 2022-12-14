@@ -43,7 +43,8 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	protected:
 	private: System::Windows::Forms::GroupBox^ groupBox1;
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ calculateButton;
+
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::ComboBox^ ClassCountBox;
 
@@ -88,7 +89,7 @@ namespace CppCLRWinformsProjekt {
 			this->learningMethodBox = (gcnew System::Windows::Forms::GroupBox());
 			this->Deltabutton = (gcnew System::Windows::Forms::RadioButton());
 			this->PerceptronButton = (gcnew System::Windows::Forms::RadioButton());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->calculateButton = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->ClassCountBox = (gcnew System::Windows::Forms::ComboBox());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
@@ -112,10 +113,9 @@ namespace CppCLRWinformsProjekt {
 			// pictureBox1
 			// 
 			this->pictureBox1->BackColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->pictureBox1->Location = System::Drawing::Point(17, 43);
-			this->pictureBox1->Margin = System::Windows::Forms::Padding(4);
+			this->pictureBox1->Location = System::Drawing::Point(13, 35);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(1069, 711);
+			this->pictureBox1->Size = System::Drawing::Size(802, 578);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->Click += gcnew System::EventHandler(this, &Form1::pictureBox1_Click);
@@ -125,16 +125,14 @@ namespace CppCLRWinformsProjekt {
 			// groupBox1
 			// 
 			this->groupBox1->Controls->Add(this->learningMethodBox);
-			this->groupBox1->Controls->Add(this->button1);
+			this->groupBox1->Controls->Add(this->calculateButton);
 			this->groupBox1->Controls->Add(this->label1);
 			this->groupBox1->Controls->Add(this->ClassCountBox);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(162)));
-			this->groupBox1->Location = System::Drawing::Point(1159, 62);
-			this->groupBox1->Margin = System::Windows::Forms::Padding(4);
+			this->groupBox1->Location = System::Drawing::Point(869, 50);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Padding = System::Windows::Forms::Padding(4);
-			this->groupBox1->Size = System::Drawing::Size(293, 165);
+			this->groupBox1->Size = System::Drawing::Size(189, 152);
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Network Architecture";
@@ -144,21 +142,24 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->learningMethodBox->Controls->Add(this->Deltabutton);
 			this->learningMethodBox->Controls->Add(this->PerceptronButton);
-			this->learningMethodBox->Location = System::Drawing::Point(13, 58);
+			this->learningMethodBox->Location = System::Drawing::Point(10, 46);
+			this->learningMethodBox->Margin = System::Windows::Forms::Padding(2);
 			this->learningMethodBox->Name = L"learningMethodBox";
-			this->learningMethodBox->Size = System::Drawing::Size(222, 51);
+			this->learningMethodBox->Padding = System::Windows::Forms::Padding(2);
+			this->learningMethodBox->Size = System::Drawing::Size(173, 62);
 			this->learningMethodBox->TabIndex = 8;
 			this->learningMethodBox->TabStop = false;
-			this->learningMethodBox->Text = L"learningMethodBox";
+			this->learningMethodBox->Text = L"Learning method to use:";
+			this->learningMethodBox->Enter += gcnew System::EventHandler(this, &Form1::learningMethodBox_Enter);
 			// 
 			// Deltabutton
 			// 
 			this->Deltabutton->AutoSize = true;
-			this->Deltabutton->Location = System::Drawing::Point(134, 19);
+			this->Deltabutton->Location = System::Drawing::Point(111, 26);
+			this->Deltabutton->Margin = System::Windows::Forms::Padding(2);
 			this->Deltabutton->Name = L"Deltabutton";
 			this->Deltabutton->Size = System::Drawing::Size(55, 17);
 			this->Deltabutton->TabIndex = 7;
-			this->Deltabutton->TabStop = true;
 			this->Deltabutton->Text = L"Delta";
 			this->Deltabutton->UseVisualStyleBackColor = true;
 			this->Deltabutton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton2_CheckedChanged);
@@ -166,7 +167,9 @@ namespace CppCLRWinformsProjekt {
 			// PerceptronButton
 			// 
 			this->PerceptronButton->AutoSize = true;
-			this->PerceptronButton->Location = System::Drawing::Point(9, 19);
+			this->PerceptronButton->Checked = true;
+			this->PerceptronButton->Location = System::Drawing::Point(20, 26);
+			this->PerceptronButton->Margin = System::Windows::Forms::Padding(2);
 			this->PerceptronButton->Name = L"PerceptronButton";
 			this->PerceptronButton->Size = System::Drawing::Size(87, 17);
 			this->PerceptronButton->TabIndex = 6;
@@ -175,23 +178,21 @@ namespace CppCLRWinformsProjekt {
 			this->PerceptronButton->UseVisualStyleBackColor = true;
 			this->PerceptronButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton1_CheckedChanged);
 			// 
-			// button1
+			// calculateButton
 			// 
-			this->button1->Enabled = false;
-			this->button1->Location = System::Drawing::Point(13, 116);
-			this->button1->Margin = System::Windows::Forms::Padding(4);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(175, 41);
-			this->button1->TabIndex = 2;
-			this->button1->Text = L"Select class count";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+			this->calculateButton->Enabled = false;
+			this->calculateButton->Location = System::Drawing::Point(30, 113);
+			this->calculateButton->Name = L"calculateButton";
+			this->calculateButton->Size = System::Drawing::Size(131, 33);
+			this->calculateButton->TabIndex = 2;
+			this->calculateButton->Text = L"Select class count";
+			this->calculateButton->UseVisualStyleBackColor = true;
+			this->calculateButton->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(220, 28);
-			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label1->Location = System::Drawing::Point(165, 23);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(0, 13);
 			this->label1->TabIndex = 1;
@@ -201,10 +202,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->ClassCountBox->FormattingEnabled = true;
 			this->ClassCountBox->Items->AddRange(gcnew cli::array< System::Object^  >(6) { L"2", L"3", L"4", L"5", L"6", L"7" });
-			this->ClassCountBox->Location = System::Drawing::Point(13, 25);
-			this->ClassCountBox->Margin = System::Windows::Forms::Padding(4);
+			this->ClassCountBox->Location = System::Drawing::Point(10, 20);
 			this->ClassCountBox->Name = L"ClassCountBox";
-			this->ClassCountBox->Size = System::Drawing::Size(199, 21);
+			this->ClassCountBox->Size = System::Drawing::Size(173, 21);
 			this->ClassCountBox->TabIndex = 0;
 			this->ClassCountBox->Text = L"Select class count";
 			this->ClassCountBox->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::ClassCountBox_SelectedIndexChanged);
@@ -217,11 +217,9 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox2->Controls->Add(this->ClassNoBox);
 			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(162)));
-			this->groupBox2->Location = System::Drawing::Point(1172, 235);
-			this->groupBox2->Margin = System::Windows::Forms::Padding(4);
+			this->groupBox2->Location = System::Drawing::Point(879, 217);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Padding = System::Windows::Forms::Padding(4);
-			this->groupBox2->Size = System::Drawing::Size(253, 75);
+			this->groupBox2->Size = System::Drawing::Size(190, 61);
 			this->groupBox2->TabIndex = 2;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Data Collection";
@@ -229,8 +227,7 @@ namespace CppCLRWinformsProjekt {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(131, 28);
-			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label2->Location = System::Drawing::Point(98, 23);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(81, 13);
 			this->label2->TabIndex = 1;
@@ -243,20 +240,18 @@ namespace CppCLRWinformsProjekt {
 				L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8",
 					L"9"
 			});
-			this->ClassNoBox->Location = System::Drawing::Point(9, 25);
-			this->ClassNoBox->Margin = System::Windows::Forms::Padding(4);
+			this->ClassNoBox->Location = System::Drawing::Point(7, 20);
 			this->ClassNoBox->Name = L"ClassNoBox";
-			this->ClassNoBox->Size = System::Drawing::Size(99, 21);
+			this->ClassNoBox->Size = System::Drawing::Size(75, 21);
 			this->ClassNoBox->TabIndex = 0;
 			this->ClassNoBox->Text = L"1";
 			// 
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(1178, 336);
-			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label3->Location = System::Drawing::Point(866, 298);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(45, 16);
+			this->label3->Size = System::Drawing::Size(35, 13);
 			this->label3->TabIndex = 3;
 			this->label3->Text = L"label3";
 			this->label3->Click += gcnew System::EventHandler(this, &Form1::label3_Click);
@@ -266,8 +261,7 @@ namespace CppCLRWinformsProjekt {
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Padding = System::Windows::Forms::Padding(8, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(1924, 24);
+			this->menuStrip1->Size = System::Drawing::Size(1443, 24);
 			this->menuStrip1->TabIndex = 4;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -284,14 +278,14 @@ namespace CppCLRWinformsProjekt {
 			// readDataToolStripMenuItem
 			// 
 			this->readDataToolStripMenuItem->Name = L"readDataToolStripMenuItem";
-			this->readDataToolStripMenuItem->Size = System::Drawing::Size(129, 22);
+			this->readDataToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->readDataToolStripMenuItem->Text = L"Read_Data";
 			this->readDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::readDataToolStripMenuItem_Click);
 			// 
 			// saveDataToolStripMenuItem
 			// 
 			this->saveDataToolStripMenuItem->Name = L"saveDataToolStripMenuItem";
-			this->saveDataToolStripMenuItem->Size = System::Drawing::Size(129, 22);
+			this->saveDataToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->saveDataToolStripMenuItem->Text = L"Save_Data";
 			this->saveDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::saveDataToolStripMenuItem_Click);
 			// 
@@ -301,18 +295,18 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(1159, 368);
-			this->textBox1->Margin = System::Windows::Forms::Padding(4);
+			this->textBox1->Location = System::Drawing::Point(869, 324);
 			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(328, 347);
+			this->textBox1->Size = System::Drawing::Size(247, 258);
 			this->textBox1->TabIndex = 5;
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
 			// Form1
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1924, 779);
+			this->ClientSize = System::Drawing::Size(1443, 633);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->groupBox2);
@@ -320,7 +314,6 @@ namespace CppCLRWinformsProjekt {
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
@@ -336,9 +329,22 @@ namespace CppCLRWinformsProjekt {
 			this->PerformLayout();
 
 		}
+		private:float netHesapla(int index) {
+			float output = 0;
+			for (int i = 0; i < inputDim; i++) {
+				output += Weights[index] * Samples[index * 2 + i];
+			}
+			return output;
+		}
 		private:void SinglePerceptron() {
+			bool allIsWell = false;
+			while (!allIsWell) {
+			
 
-
+				for (int i = 0; i < numSample; i++) {
+					netHesapla(i);
+				}allIsWell = true;
+			}
 
 		}
 		private:void SingleDelta() {
@@ -417,7 +423,6 @@ namespace CppCLRWinformsProjekt {
 						numSample++;
 						Samples = Add_Data(Samples, numSample, x, inputDim);
 						targets = Add_Labels(targets, numSample, label);
-
 					}//else
 					draw_sample(temp_x, temp_y, label);
 					label3->Text = "Samples Count: " + System::Convert::ToString(numSample);
@@ -605,11 +610,15 @@ private: System::Void ClassCountBox_TextChanged(System::Object^ sender, System::
 		bias = init_array_random(numOutNeuron);
 		//LineCiz(Weights, bias, numClass, 1.0);
 	}
-	button1->Enabled = true;
-	button1->Text = "Calculate";
+	calculateButton->Enabled = true;
+	calculateButton->Text = "Calculate";
 	ClassCountBox->Enabled = false;
 }
 private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void learningMethodBox_Enter(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
