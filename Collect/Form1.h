@@ -336,6 +336,14 @@ namespace CppCLRWinformsProjekt {
 			}
 			return output;
 		}
+		private:int sigmoidFunc(float net) {
+			if (net < 0) {
+				return 0;
+			}
+			else {
+				return 1;
+			}
+		}
 		private:void SinglePerceptron() {
 			bool allIsWell = false;
 			while (!allIsWell) {
