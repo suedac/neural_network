@@ -345,11 +345,12 @@ namespace CppCLRWinformsProjekt {
 				return 1;
 			}
 		}
-			   private:float agirlikGuncelle(float delta, int index) {
-				   for (int i=0; i < weightCount; i++) {
-					   Weights[i] += delta * Samples[index * inputDim + i];
-				   }
-			   }
+		private:void agirlikGuncelle(float delta, int index) {
+		   for (int i=0; i < weightCount; i++) {
+			   Weights[i] += delta * Samples[index * inputDim + i];
+		   }
+		   bias[0] += delta * 1; //bias'i X'i 1 olan ekstra bir sample'in agirligi gibi tutuyoruz
+		}
 		private:void SinglePerceptron() {
 			bool allIsWell = false;
 			while (!allIsWell) {
@@ -364,6 +365,7 @@ namespace CppCLRWinformsProjekt {
 					}
 				}
 			}
+			LineCiz(Weights, bias, numClass, 1);
 		}
 		private:void SingleDelta() {
 
@@ -468,14 +470,14 @@ namespace CppCLRWinformsProjekt {
 				weightCount = numClass * inputDim;
 				Weights = init_array_random(weightCount);
 				bias = init_array_random(numClass);
-				LineCiz(Weights, bias, numClass, 1.0);
+				//LineCiz(Weights, bias, numClass, 1.0);
 			}
 			else {
 				int numOutNeuron = 1;
 				weightCount = inputDim;
 				Weights = init_array_random(weightCount);
 				bias = init_array_random(numOutNeuron); // bias[0]
-				LineCiz(Weights, bias, numClass, 1.0);
+				//LineCiz(Weights, bias, numClass, 1.0);
 			}
 			if (PerceptronButton->Checked == true) {
 				SinglePerceptron();
