@@ -58,7 +58,7 @@ namespace CppCLRWinformsProjekt {
 		/// <summary>
 		/// User Defined Variables
 		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0;
-		float *Samples, *targets, *Weights, *bias;
+		float *Samples, *targets, *Weights, *bias, *normalizedSamples, error = 2;
 		
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
@@ -115,7 +115,7 @@ namespace CppCLRWinformsProjekt {
 			this->pictureBox1->BackColor = System::Drawing::SystemColors::ButtonHighlight;
 			this->pictureBox1->Location = System::Drawing::Point(13, 35);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(802, 578);
+			this->pictureBox1->Size = System::Drawing::Size(800, 600);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->Click += gcnew System::EventHandler(this, &Form1::pictureBox1_Click);
@@ -278,14 +278,14 @@ namespace CppCLRWinformsProjekt {
 			// readDataToolStripMenuItem
 			// 
 			this->readDataToolStripMenuItem->Name = L"readDataToolStripMenuItem";
-			this->readDataToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->readDataToolStripMenuItem->Size = System::Drawing::Size(129, 22);
 			this->readDataToolStripMenuItem->Text = L"Read_Data";
 			this->readDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::readDataToolStripMenuItem_Click);
 			// 
 			// saveDataToolStripMenuItem
 			// 
 			this->saveDataToolStripMenuItem->Name = L"saveDataToolStripMenuItem";
-			this->saveDataToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->saveDataToolStripMenuItem->Size = System::Drawing::Size(129, 22);
 			this->saveDataToolStripMenuItem->Text = L"Save_Data";
 			this->saveDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::saveDataToolStripMenuItem_Click);
 			// 
@@ -329,10 +329,16 @@ namespace CppCLRWinformsProjekt {
 			this->PerformLayout();
 
 		}
-		private:float netHesaplaSingle(int index) {
+		private:float netHesaplaSingle(int index, bool normalized) {
 			float output = 0;
 			for (int i = 0; i < inputDim; i++) {
-				output += Weights[i] * Samples[index * inputDim + i];
+				if (normalized == true) {
+					output += Weights[i] * normalizedSamples[index * inputDim + i];
+				}
+				else{
+					output += Weights[i] * Samples[index * inputDim + i];
+				}
+				
 			}
 			output += bias[0];
 			return output;
@@ -345,9 +351,16 @@ namespace CppCLRWinformsProjekt {
 				return 1;
 			}
 		}
-		private:void agirlikGuncelle(float delta, int index) {
+		private:void agirlikGuncelle(float delta, int index, bool normalization) {
 		   for (int i=0; i < weightCount; i++) {
-			   Weights[i] += delta * Samples[index * inputDim + i];
+			  
+			   if (normalization == true) {
+				   Weights[i] += delta * normalizedSamples[index * inputDim + i];
+			   }
+			   else {
+				 Weights[i] += delta * Samples[index * inputDim + i];
+			   }
+			   
 		   }
 		   bias[0] += delta * 1; //bias'i X'i 1 olan ekstra bir sample'in agirligi gibi tutuyoruz
 		}
@@ -357,18 +370,50 @@ namespace CppCLRWinformsProjekt {
 				allIsWell = true;
 
 				for (int i = 0; i < numSample; i++) {
-					int output = sigmoidFunc(netHesaplaSingle(i));
+					int output = sigmoidFunc(netHesaplaSingle(i, false));
 					int delta = targets[i] - output;
 					if (delta != 0) {
 						allIsWell = false;
-						agirlikGuncelle(delta, i);
+						agirlikGuncelle(delta, i, false);
 					}
 				}
 			}
 			LineCiz(Weights, bias, numClass, 1);
 		}
-		private:void SingleDelta() {
+			   private:void normalizeEt() {
+				   for (int i=0; i < numSample * 2; i++) {
+					   if (i % 2 != 0) {
+						  normalizedSamples[i] =  (Samples[i] + 300) / 600; //y ekseni
+					   }
+					   else {
+						   normalizedSamples[i] = (Samples[i] + 400) / 800; //x ekseni icin
+					   }
+				   }
+				   
+			   }
+				private:float sigmoidDelta(float net) {
+					int lambda = 1;
+					return 1 / (1 + Math::Exp(-lambda * net));
+				}
+				private:float turevSigmoid(float net) {
+					 return sigmoidDelta(net)* (1 - sigmoidDelta(net));
+				}
+				
 
+		private:void SingleDelta() {
+			float epsilon = 0.1;
+			
+			normalizeEt();
+			while (error>epsilon) {
+				error = 0;
+				for (int i = 0; i < numSample; i++) {
+					float output = sigmoidDelta(netHesaplaSingle(i,true));
+					float delta = (targets[i] - output) * turevSigmoid(netHesaplaSingle(i,true));
+					error += (1 / 2) * (targets[i] - output) * (targets[i] - output);
+					agirlikGuncelle(delta, i, true);
+				}
+			}
+			LineCiz(Weights, bias, numClass, 1);
 
 
 	    }
@@ -434,7 +479,9 @@ namespace CppCLRWinformsProjekt {
 					label = numLabel - 1; //Dögüler 0 dan baþladýðýndan, bir eksiði alýnmýþtýr
 					if (numSample == 0) { //Dinamik alýnan ilk örnek için sadece
 						numSample = 1;  
-						Samples = new float[numSample * inputDim]; targets = new float[numSample];
+						Samples = new float[numSample * inputDim]; 
+						targets = new float[numSample];
+						normalizedSamples = new float [numSample * inputDim];
 						for (int i = 0; i < inputDim; i++)
 							Samples[i] = x[i];
 						targets[0] = float(label);
