@@ -59,7 +59,7 @@ namespace CppCLRWinformsProjekt {
 		/// User Defined Variables
 		int  numClass = 0, numSample = 0, inputDim = 2;
 		float *Samples, *targets, *Weights, *bias;
-
+		
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ readDataToolStripMenuItem;
@@ -332,8 +332,9 @@ namespace CppCLRWinformsProjekt {
 		private:float netHesapla(int index) {
 			float output = 0;
 			for (int i = 0; i < inputDim; i++) {
-				output += Weights[index] * Samples[index * 2 + i];
+				output += Weights[i] * Samples[index * inputDim + i];
 			}
+			output += bias[0];
 			return output;
 		}
 		private:int sigmoidFunc(float net) {
@@ -350,7 +351,7 @@ namespace CppCLRWinformsProjekt {
 			
 
 				for (int i = 0; i < numSample; i++) {
-					netHesapla(i);
+					int output= sigmoidFunc(netHesapla(i));
 				}allIsWell = true;
 			}
 
@@ -462,7 +463,7 @@ namespace CppCLRWinformsProjekt {
 			else {
 				int numOutNeuron = 1;
 				Weights = init_array_random(inputDim);
-				bias = init_array_random(numOutNeuron);
+				bias = init_array_random(numOutNeuron); // bias[0]
 				LineCiz(Weights, bias, numClass, 1.0);
 			}
 			if (PerceptronButton->Checked == true) {
