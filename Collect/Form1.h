@@ -57,7 +57,7 @@ namespace CppCLRWinformsProjekt {
 	private:
 		/// <summary>
 		/// User Defined Variables
-		int  numClass = 0, numSample = 0, inputDim = 2;
+		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0;
 		float *Samples, *targets, *Weights, *bias;
 		
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
@@ -329,7 +329,7 @@ namespace CppCLRWinformsProjekt {
 			this->PerformLayout();
 
 		}
-		private:float netHesapla(int index) {
+		private:float netHesaplaSingle(int index) {
 			float output = 0;
 			for (int i = 0; i < inputDim; i++) {
 				output += Weights[i] * Samples[index * inputDim + i];
@@ -345,16 +345,25 @@ namespace CppCLRWinformsProjekt {
 				return 1;
 			}
 		}
+			   private:float agirlikGuncelle(float delta, int index) {
+				   for (int i=0; i < weightCount; i++) {
+					   Weights[i] += delta * Samples[index * inputDim + i];
+				   }
+			   }
 		private:void SinglePerceptron() {
 			bool allIsWell = false;
 			while (!allIsWell) {
-			
+				allIsWell = true;
 
 				for (int i = 0; i < numSample; i++) {
-					int output= sigmoidFunc(netHesapla(i));
-				}allIsWell = true;
+					int output = sigmoidFunc(netHesaplaSingle(i));
+					int delta = targets[i] - output;
+					if (delta != 0) {
+						allIsWell = false;
+						agirlikGuncelle(delta, i);
+					}
+				}
 			}
-
 		}
 		private:void SingleDelta() {
 
@@ -456,13 +465,15 @@ namespace CppCLRWinformsProjekt {
 			// 2 den fazla class'imiz yoksa inputDim (2) adet agirlik olmasi yeterli
 			// Ama eger multiclass calisiyorsak, katmandaki her class icin ayri agirliklar olacagi icin numClass * inputDim (x1 ve x2 icin) kadar agirliga ihtiyacimiz var
 			if (numClass > 2) {
-				Weights = init_array_random(numClass * inputDim);
+				weightCount = numClass * inputDim;
+				Weights = init_array_random(weightCount);
 				bias = init_array_random(numClass);
 				LineCiz(Weights, bias, numClass, 1.0);
 			}
 			else {
 				int numOutNeuron = 1;
-				Weights = init_array_random(inputDim);
+				weightCount = inputDim;
+				Weights = init_array_random(weightCount);
 				bias = init_array_random(numOutNeuron); // bias[0]
 				LineCiz(Weights, bias, numClass, 1.0);
 			}
