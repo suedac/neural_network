@@ -393,10 +393,10 @@ namespace CppCLRWinformsProjekt {
 			   }
 				private:float sigmoidDelta(float net) {
 					int lambda = 1;
-					return 1 / (1 + Math::Exp(-lambda * net));
+					return (float) 1 / (1 + Math::Exp(-lambda * net));
 				}
 				private:float turevSigmoid(float net) {
-					 return sigmoidDelta(net)* (1 - sigmoidDelta(net));
+					 return (float) sigmoidDelta(net)* (1 - sigmoidDelta(net));
 				}
 				
 
@@ -409,7 +409,7 @@ namespace CppCLRWinformsProjekt {
 				for (int i = 0; i < numSample; i++) {
 					float output = sigmoidDelta(netHesaplaSingle(i,true));
 					float delta = (targets[i] - output) * turevSigmoid(netHesaplaSingle(i,true));
-					error += (1 / 2) * (targets[i] - output) * (targets[i] - output);
+					error += (float) 0.5 * (targets[i] - output) * (targets[i] - output);
 					agirlikGuncelle(delta, i, true);
 				}
 			}
