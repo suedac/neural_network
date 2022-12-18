@@ -71,6 +71,7 @@ namespace CppCLRWinformsProjekt {
 
 	private: System::Windows::Forms::RadioButton^ Deltabutton;
 	private: System::Windows::Forms::GroupBox^ learningMethodBox;
+	private: System::Windows::Forms::CheckBox^ checkBox1;
 
 
 
@@ -103,6 +104,7 @@ namespace CppCLRWinformsProjekt {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->groupBox1->SuspendLayout();
 			this->learningMethodBox->SuspendLayout();
@@ -249,7 +251,7 @@ namespace CppCLRWinformsProjekt {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(866, 298);
+			this->label3->Location = System::Drawing::Point(1081, 298);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(35, 13);
 			this->label3->TabIndex = 3;
@@ -258,6 +260,7 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// menuStrip1
 			// 
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
@@ -295,18 +298,32 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// textBox1
 			// 
+			this->textBox1->Enabled = false;
 			this->textBox1->Location = System::Drawing::Point(869, 324);
 			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(247, 258);
 			this->textBox1->TabIndex = 5;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::groupBox1_Enter);
+			// 
+			// checkBox1
+			// 
+			this->checkBox1->AutoSize = true;
+			this->checkBox1->BackColor = System::Drawing::Color::Transparent;
+			this->checkBox1->Location = System::Drawing::Point(869, 298);
+			this->checkBox1->Name = L"checkBox1";
+			this->checkBox1->Size = System::Drawing::Size(101, 17);
+			this->checkBox1->TabIndex = 6;
+			this->checkBox1->Text = L"Agirliklari Goster";
+			this->checkBox1->UseVisualStyleBackColor = false;
+			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox1_CheckedChanged);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1443, 633);
+			this->Controls->Add(this->checkBox1);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->groupBox2);
@@ -352,7 +369,11 @@ namespace CppCLRWinformsProjekt {
 			}
 		}
 		private:void agirlikGuncelle(float delta, int index, bool normalization) {
-		   for (int i=0; i < weightCount; i++) {
+			if (checkBox1->Checked) {
+				textBox1->AppendText("w1 w2 w3 " + Weights[0] + Weights[1] + "\n");
+			}
+		
+			for (int i=0; i < weightCount; i++) {
 			  
 			   if (normalization == true) {
 				   Weights[i] += delta * normalizedSamples[index * inputDim + i];
@@ -688,6 +709,14 @@ private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^
 private: System::Void learningMethodBox_Enter(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (checkBox1->Checked) {
+		textBox1->Enabled = true;
+	}
+	else {
+		textBox1->Enabled = false;
+	}
 }
 };
 }
