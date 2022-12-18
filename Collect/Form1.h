@@ -423,9 +423,9 @@ namespace CppCLRWinformsProjekt {
 	}
 
 
-	private:void SingleDelta() {
+	private:void Delta(float *targets) {
 		float epsilon = 0.1;
-
+		error = 2;
 		normalizeEt();
 		while (error > epsilon) {
 			error = 0;
@@ -436,13 +436,11 @@ namespace CppCLRWinformsProjekt {
 				agirlikGuncelle(delta, i, true);
 			}
 		}
-		LineCiz(Weights, bias, numClass, 1);
+		LineCiz(Weights, bias, 2, 1);
 
 
 	}
-	private:void multiPerceptron() {
-
-	}
+	
 		   void  LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
 			   textBox1->AppendText(KacDongu + "kere dondu");
 			   int x1, x2, y1, y2;
@@ -564,7 +562,7 @@ namespace CppCLRWinformsProjekt {
 					Perceptron(fakeTargets);
 				}
 				else if (Deltabutton->Checked == true) {
-					SingleDelta();
+					Delta(fakeTargets);
 				}
 				finalWeights[classno * inputDim + 0] = Weights[0];
 				finalWeights[classno * inputDim + 1] = Weights[1];
@@ -580,7 +578,7 @@ namespace CppCLRWinformsProjekt {
 				Perceptron(targets);
 			}
 			else if (Deltabutton->Checked == true) {
-				SingleDelta();
+				Delta(targets);
 			}
 		}
 
