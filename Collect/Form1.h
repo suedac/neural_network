@@ -57,7 +57,7 @@ namespace CppCLRWinformsProjekt {
 	private:
 		/// <summary>
 		/// User Defined Variables
-		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0;
+		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0, KacDongu = 0;
 		float *Samples, *targets, *Weights, *bias, *normalizedSamples, error = 2;
 		
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
@@ -360,7 +360,7 @@ namespace CppCLRWinformsProjekt {
 			output += bias[0];
 			return output;
 		}
-		private:int sigmoidFunc(float net) {
+		private:int unitStepFunc(float net) {
 			if (net < 0) {
 				return 0;
 			}
@@ -370,9 +370,9 @@ namespace CppCLRWinformsProjekt {
 		}
 		private:void agirlikGuncelle(float delta, int index, bool normalization) {
 			if (checkBox1->Checked) {
-				textBox1->AppendText("w1 w2 w3 " + Weights[0] + Weights[1] + "\n");
+				textBox1->AppendText("w1 w2 w3 " + Weights[0] + Weights[1] + "\r\n");
 			}
-		
+			KacDongu++;
 			for (int i=0; i < weightCount; i++) {
 			  
 			   if (normalization == true) {
@@ -391,15 +391,17 @@ namespace CppCLRWinformsProjekt {
 				allIsWell = true;
 
 				for (int i = 0; i < numSample; i++) {
-					int output = sigmoidFunc(netHesaplaSingle(i, false));
+					int output = unitStepFunc(netHesaplaSingle(i, false));
 					int delta = targets[i] - output;
 					if (delta != 0) {
 						allIsWell = false;
 						agirlikGuncelle(delta, i, false);
+
 					}
 				}
 			}
 			LineCiz(Weights, bias, numClass, 1);
+
 		}
 			   private:void normalizeEt() {
 				   for (int i=0; i < numSample * 2; i++) {
@@ -438,7 +440,8 @@ namespace CppCLRWinformsProjekt {
 
 
 	    }
-		void LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
+		void  LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
+			textBox1->AppendText(KacDongu + "kere dondu");
 			int x1, x2, y1, y2;
 			Pen^ pen;
 			float ww[2]; //inputDim=2
