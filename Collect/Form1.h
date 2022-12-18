@@ -385,7 +385,7 @@ namespace CppCLRWinformsProjekt {
 		   }
 		   bias[0] += delta * 1; //bias'i X'i 1 olan ekstra bir sample'in agirligi gibi tutuyoruz
 		}
-		private:void SinglePerceptron() {
+		private:void Perceptron(float *targets) {
 			bool allIsWell = false;
 			while (!allIsWell) {
 				allIsWell = true;
@@ -440,6 +440,9 @@ namespace CppCLRWinformsProjekt {
 
 
 	    }
+			   private:void multiPerceptron() {
+
+			   }
 		void  LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
 			textBox1->AppendText(KacDongu + "kere dondu");
 			int x1, x2, y1, y2;
@@ -542,6 +545,12 @@ namespace CppCLRWinformsProjekt {
 				Weights = init_array_random(weightCount);
 				bias = init_array_random(numClass);
 				//LineCiz(Weights, bias, numClass, 1.0);
+				if (PerceptronButton->Checked == true) {
+					Perceptron(targets);
+				}
+				else if (Deltabutton->Checked == true) {
+					SingleDelta();
+				}
 			}
 			else {
 				int numOutNeuron = 1;
@@ -549,13 +558,14 @@ namespace CppCLRWinformsProjekt {
 				Weights = init_array_random(weightCount);
 				bias = init_array_random(numOutNeuron); // bias[0]
 				//LineCiz(Weights, bias, numClass, 1.0);
+				if (PerceptronButton->Checked == true) {
+					Perceptron(targets);
+				}
+				else if (Deltabutton->Checked == true) {
+					SingleDelta();
+				}
 			}
-			if (PerceptronButton->Checked == true) {
-				SinglePerceptron();
-			}
-			else if (Deltabutton->Checked == true){
-				SingleDelta();
-			}
+
         }
         private: System::Void readDataToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 			char** c = new char *[2];
