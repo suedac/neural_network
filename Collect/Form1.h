@@ -58,7 +58,7 @@ namespace CppCLRWinformsProjekt {
 		/// <summary>
 		/// User Defined Variables
 		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0, KacDongu = 0, currentClass = 0;
-		float* Samples, * targets, * Weights, * bias, * normalizedSamples, error = 2, * fakeTargets, * finalWeights, *finalBias;
+		float* Samples, * targets, * Weights, * bias, * normalizedSamples, error = 2, * fakeTargets, * finalWeights, * finalBias;
 
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
@@ -370,7 +370,7 @@ namespace CppCLRWinformsProjekt {
 	}
 	private:void agirlikGuncelle(float delta, int index, bool normalization) {
 		if (checkBox1->Checked) {
-			textBox1->AppendText("w1 w2 bias " + Weights[0]   + " " + Weights[1] + "  " + bias[0] + "\r\n");
+			textBox1->AppendText("w1 w2 bias " + Weights[0] + " " + Weights[1] + "  " + bias[0] + "\r\n");
 		}
 		KacDongu++;
 		for (int i = 0; i < weightCount; i++) {
@@ -423,7 +423,7 @@ namespace CppCLRWinformsProjekt {
 	}
 
 
-	private:void Delta(float *targets) {
+	private:void Delta(float* targets) {
 		float epsilon = 0.1;
 		error = 2;
 		normalizeEt();
@@ -440,33 +440,33 @@ namespace CppCLRWinformsProjekt {
 
 
 	}
-	
+
 		   void  LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
 			   textBox1->AppendText(KacDongu + " kere dondu \r\n");
 			   int x1, x2, y1, y2;
 			   Pen^ pen;
 			   float ww[2]; //inputDim=2
-			  
-		
-			   
-				   switch (currentClass) {
-				   case 0: pen = gcnew Pen(Color::Black, 3.0f); break;
-				   case 1: pen = gcnew Pen(Color::Red, 3.0f); break;
-				   case 2: pen = gcnew Pen(Color::Blue, 3.0f); break;
-				   case 3: pen = gcnew Pen(Color::Green, 3.0f); break;
-				   case 4: pen = gcnew Pen(Color::Yellow, 3.0f); break;
-				   case 5: pen = gcnew Pen(Color::Orange, 3.0f); break;
-				   default: pen = gcnew Pen(Color::YellowGreen, 3.0f);
-				   }//switch
-				   ww[0] = w[0];
-				   ww[1] = w[1];
-				   x1 = -pictureBox1->Width / 2;     y1 = YPoint(x1, ww, bias[0], Carpan);
-				   x1 += pictureBox1->Width / 2;     y1 = pictureBox1->Height / 2 - y1;
-				   x2 = pictureBox1->Width / 2;      y2 = YPoint(x2, ww, bias[0], Carpan);
-				   x2 += pictureBox1->Width / 2;   y2 = pictureBox1->Height / 2 - y2;
 
-				   pictureBox1->CreateGraphics()->DrawLine(pen, x1, y1, x2, y2);
-			  
+
+
+			   switch (currentClass) {
+			   case 0: pen = gcnew Pen(Color::Black, 3.0f); break;
+			   case 1: pen = gcnew Pen(Color::Red, 3.0f); break;
+			   case 2: pen = gcnew Pen(Color::Blue, 3.0f); break;
+			   case 3: pen = gcnew Pen(Color::Green, 3.0f); break;
+			   case 4: pen = gcnew Pen(Color::Yellow, 3.0f); break;
+			   case 5: pen = gcnew Pen(Color::Orange, 3.0f); break;
+			   default: pen = gcnew Pen(Color::YellowGreen, 3.0f);
+			   }//switch
+			   ww[0] = w[0];
+			   ww[1] = w[1];
+			   x1 = -pictureBox1->Width / 2;     y1 = YPoint(x1, ww, bias[0], Carpan);
+			   x1 += pictureBox1->Width / 2;     y1 = pictureBox1->Height / 2 - y1;
+			   x2 = pictureBox1->Width / 2;      y2 = YPoint(x2, ww, bias[0], Carpan);
+			   x2 += pictureBox1->Width / 2;   y2 = pictureBox1->Height / 2 - y2;
+
+			   pictureBox1->CreateGraphics()->DrawLine(pen, x1, y1, x2, y2);
+
 		   }//LineCÝz
 		   void draw_sample(int temp_x, int temp_y, int label) {
 			   Pen^ pen;// = gcnew Pen(Color::Black, 3.0f);
@@ -570,8 +570,8 @@ namespace CppCLRWinformsProjekt {
 				finalBias[classno] = bias[0];
 			}
 			textBox1->AppendText("final weights are:\r\n");
-			for (int i = 0; i < numClass * inputDim; i+=inputDim) {
-				textBox1->AppendText(finalWeights[i] + " " + finalWeights[i+1] + " " + finalBias[i/inputDim] + "\r\n");
+			for (int i = 0; i < numClass * inputDim; i += inputDim) {
+				textBox1->AppendText(finalWeights[i] + " " + finalWeights[i + 1] + " " + finalBias[i / inputDim] + "\r\n");
 			}
 		}
 		else {
