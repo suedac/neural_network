@@ -58,7 +58,7 @@ namespace CppCLRWinformsProjekt {
 		/// <summary>
 		/// User Defined Variables
 		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0, KacDongu = 0, currentClass = 0;
-		float* Samples, * targets, * Weights, * bias, * normalizedSamples, error = 2, * fakeTargets, * finalWeights;
+		float* Samples, * targets, * Weights, * bias, * normalizedSamples, error = 2, * fakeTargets, * finalWeights, *finalBias;
 
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
@@ -370,9 +370,9 @@ namespace CppCLRWinformsProjekt {
 	}
 	private:void agirlikGuncelle(float delta, int index, bool normalization) {
 		if (checkBox1->Checked) {
-			textBox1->AppendText("w1 w2 w3 " + Weights[0] + Weights[1] + "\r\n");
+			textBox1->AppendText("w1 w2 bias " + Weights[0]   + " " + Weights[1] + "  " + bias[0] + "\r\n");
 		}
-		//KacDongu++;
+		KacDongu++;
 		for (int i = 0; i < weightCount; i++) {
 
 			if (normalization == true) {
@@ -442,7 +442,7 @@ namespace CppCLRWinformsProjekt {
 	}
 	
 		   void  LineCiz(float* w, float* bias, int NumberOfClass, float Carpan) {
-			   textBox1->AppendText(KacDongu + "kere dondu");
+			   textBox1->AppendText(KacDongu + " kere dondu \r\n");
 			   int x1, x2, y1, y2;
 			   Pen^ pen;
 			   float ww[2]; //inputDim=2
@@ -536,6 +536,7 @@ namespace CppCLRWinformsProjekt {
 		numClass = Convert::ToInt32(ClassCountBox->Text);
 		Weights = new float[inputDim];
 		bias = new float[numClass];
+		finalBias = new float[numClass];
 		//initialize weights for single layer
 		// 2 den fazla class'imiz yoksa inputDim (2) adet agirlik olmasi yeterli
 		// Ama eger multiclass calisiyorsak, katmandaki her class icin ayri agirliklar olacagi icin numClass * inputDim (x1 ve x2 icin) kadar agirliga ihtiyacimiz var
@@ -566,6 +567,11 @@ namespace CppCLRWinformsProjekt {
 				}
 				finalWeights[classno * inputDim + 0] = Weights[0];
 				finalWeights[classno * inputDim + 1] = Weights[1];
+				finalBias[classno] = bias[0];
+			}
+			textBox1->AppendText("final weights are:\r\n");
+			for (int i = 0; i < numClass * inputDim; i+=inputDim) {
+				textBox1->AppendText(finalWeights[i] + " " + finalWeights[i+1] + " " + finalBias[i/inputDim] + "\r\n");
 			}
 		}
 		else {
