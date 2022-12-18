@@ -58,7 +58,7 @@ namespace CppCLRWinformsProjekt {
 		/// <summary>
 		/// User Defined Variables
 		int  numClass = 0, numSample = 0, inputDim = 2, weightCount = 0, KacDongu = 0;
-		float *Samples, *targets, *Weights, *bias, *normalizedSamples, error = 2;
+		float *Samples, *targets, *Weights, *bias, *normalizedSamples, error = 2, *fakeTargets;
 		
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
@@ -372,7 +372,7 @@ namespace CppCLRWinformsProjekt {
 			if (checkBox1->Checked) {
 				textBox1->AppendText("w1 w2 w3 " + Weights[0] + Weights[1] + "\r\n");
 			}
-			KacDongu++;
+			//KacDongu++;
 			for (int i=0; i < weightCount; i++) {
 			  
 			   if (normalization == true) {
@@ -400,7 +400,7 @@ namespace CppCLRWinformsProjekt {
 					}
 				}
 			}
-			LineCiz(Weights, bias, numClass, 1);
+			LineCiz(Weights, bias, 2, 1);
 
 		}
 			   private:void normalizeEt() {
@@ -508,15 +508,18 @@ namespace CppCLRWinformsProjekt {
 						numSample = 1;  
 						Samples = new float[numSample * inputDim]; 
 						targets = new float[numSample];
+						fakeTargets = new float[numSample];
 						normalizedSamples = new float [numSample * inputDim];
 						for (int i = 0; i < inputDim; i++)
 							Samples[i] = x[i];
 						targets[0] = float(label);
+						fakeTargets[0] = float(label);
 					}
 					else {
 						numSample++;
 						Samples = Add_Data(Samples, numSample, x, inputDim);
 						targets = Add_Labels(targets, numSample, label);
+						
 					}//else
 					draw_sample(temp_x, temp_y, label);
 					label3->Text = "Samples Count: " + System::Convert::ToString(numSample);
@@ -541,15 +544,29 @@ namespace CppCLRWinformsProjekt {
 			// 2 den fazla class'imiz yoksa inputDim (2) adet agirlik olmasi yeterli
 			// Ama eger multiclass calisiyorsak, katmandaki her class icin ayri agirliklar olacagi icin numClass * inputDim (x1 ve x2 icin) kadar agirliga ihtiyacimiz var
 			if (numClass > 2) {
+
 				weightCount = numClass * inputDim;
-				Weights = init_array_random(weightCount);
+				
+				for (int classno = 0; classno < numClass; classno++) {
+Weights = init_array_random(weightCount);
 				bias = init_array_random(numClass);
+					for (int j = 0; j < numSample; j++) {
+						if (targets[j] == classno) {
+							fakeTargets[j] = 1;
+						}
+						else {
+							fakeTargets[j] = 0;
+						}
+					}
+					
+				
 				//LineCiz(Weights, bias, numClass, 1.0);
 				if (PerceptronButton->Checked == true) {
-					Perceptron(targets);
+					Perceptron(fakeTargets);
 				}
 				else if (Deltabutton->Checked == true) {
 					SingleDelta();
+				}
 				}
 			}
 			else {
